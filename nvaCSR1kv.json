@@ -44,7 +44,7 @@
         },
         "vm1Name": {
             "type": "string",
-            "defaultValue": "myVm"
+            "defaultValue": "myVm1"
         },
         "vm1Size": {
             "type": "string",
@@ -52,7 +52,7 @@
         },
 		 "vm2Name": {
             "type": "string",
-            "defaultValue": "my2Vm"
+            "defaultValue": "myVm1"
         },
         "vm2Size": {
             "type": "string",
@@ -63,7 +63,7 @@
             "defaultValue": "lab-user"
         },
         "adminPassword": {
-            "type": "secureString"
+            "type": "securestring"
         }
     },
     "variables": {
@@ -431,7 +431,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[variables('vm2NsgName')]",
-                "[variables('vm1PipName')]",
+                "[variables('vm2PipName')]",
                 "[parameters('vnetName')]"
             ],
             "properties": {
