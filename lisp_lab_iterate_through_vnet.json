@@ -46,7 +46,7 @@
     "variables": {
         "networkApiVersion": "2018-08-01",
         "deploymentApiVersion": "2017-05-10",
-        "nvaTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'nvaCSR1kv.json')]",
+        "nvaTemplateUrl1": "[uri(deployment().properties.templateLink.uri, 'nvaCSR1kv.json')]",
         "nvaTemplateUrl2": "[uri(deployment().properties.templateLink.uri, 'nvaCSR1kv2.json')]"
     },
     "resources": [
@@ -58,7 +58,7 @@
 			"properties": {
 				"mode": "Incremental",
 				"templateLink": {
-					"uri": "[variables('nvaTemplateUrl')]",
+					"uri": "[variables('nvaTemplateUrl1')]",
 					"contentVersion": "1.0.0.0"
 				},
 				"parameters": {

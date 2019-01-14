@@ -388,7 +388,7 @@
             "tags": {}
         },
         {
-            "comments": "Crate NIC for VM 1",
+            "comments": "Create NIC for VM 1",
             "name": "[variables('vm1NicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
@@ -421,7 +421,7 @@
         },
         {
             "comments": "Crate NIC for VM2",
-            "name": "[variables('vm1NicName')]",
+            "name": "[variables('vm2NicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
