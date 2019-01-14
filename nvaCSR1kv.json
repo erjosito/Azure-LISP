@@ -81,7 +81,7 @@
 		"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
         "nvaNsgName": "[concat(parameters('nvaName'), '-nsg')]",
         "vm1NsgName": "[concat(parameters('vm1Name'), '-nsg')]",
-        "vm2NsgName": "[concat(parameters('vm1Name'), '-nsg')]",
+        "vm2NsgName": "[concat(parameters('vm2Name'), '-nsg')]",
         "nvaNsgRules": [
             {
                 "name": "SSH",
