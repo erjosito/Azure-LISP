@@ -386,7 +386,7 @@
             "tags": {}
         },
         {
-            "comments": "Crate NIC for VM",
+            "comments": "Create NIC for VM",
             "name": "[variables('vmNicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
@@ -418,7 +418,7 @@
             "tags": {}
         },	
         {
-            "comments": "NSG allowing port 22 for VM1",
+            "comments": "NSG allowing port 22 for VM",
             "name": "[variables('vmNsgName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "[variables('networkApiVersion')]",
@@ -429,7 +429,7 @@
             "tags": {}
         },
         {
-            "comments": "PIP for the VM1",
+            "comments": "PIP for the VM",
             "name": "[variables('vmPipName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "[variables('networkApiVersion')]",
@@ -439,17 +439,6 @@
             },
             "sku": {
                 "name": "[variables('pipSku')]"
-            },
-            "tags": {}
-        },
-        {
-            "comments": "NSG allowing port 22 for VM2",
-            "name": "[variables('vmNsgName')]",
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "[variables('networkApiVersion')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "securityRules": "[variables('vmNsgRules')]"
             },
             "tags": {}
         },
