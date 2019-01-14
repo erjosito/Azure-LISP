@@ -268,7 +268,7 @@
                             },
 							"primary": false,
                             "privateIPAddressVersion": "IPv4",
-                            "privateIPAllocationMethod": "Static"
+                            "privateIPAllocationMethod": "Dynamic"
                         }
                     }
                 ],
