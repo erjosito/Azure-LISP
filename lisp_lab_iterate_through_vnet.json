@@ -74,8 +74,8 @@
                     "subnet3Prefix": {"value": "[parameters('config')['vnets'][0]['TestSubnet']]"},
                     "nvaName": {"value": "[parameters('config')['vnets'][0]['nvaName']]"},
                     "nvaSize": {"value": "Standard_D2_v2"},
-					"vmName": {"value": "[parameters('config')['vnets'][0]['vmName']]"},
-                    "vmSize": {"value": "Standard_B1s"},
+					"vm1Name": {"value": "[parameters('config')['vnets'][0]['vmName']]"},
+                    "vm1Size": {"value": "Standard_B1s"},
                     "vm2Name": {"value": "[parameters('config')['vnets'][0]['vm2Name']]"},
                     "vm2Size": {"value": "Standard_B1s"}
                 }
