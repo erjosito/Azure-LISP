@@ -132,7 +132,7 @@
         "subnet3Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet3Name'))]",
         "autoShutdownStatus": "Enabled",
         "autoShutdownTime": "19:00",
-        "autoShutdownTimeZone": "EST",
+        "autoShutdownTimeZone": "Eastern Standard Time",
         "autoShutdownNotificationStatus": "Disabled",
         "autoShutdownNotificationLocale": "en",
         "storageName": "[toLower(concat(uniqueString(resourceGroup().id), 'diag'))]",
