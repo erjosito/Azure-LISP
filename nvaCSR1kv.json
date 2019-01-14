@@ -42,17 +42,21 @@
             "type": "string",
             "defaultValue": "Standard_D2_v2"
         },
-        "vmName": {
+        "vm1Name": {
             "type": "string",
             "defaultValue": "myVm"
         },
-        "vmSize": {
+        "vm1Size": {
             "type": "string",
             "defaultValue": "Standard_B1s"
         },
 		 "vm2Name": {
             "type": "string",
             "defaultValue": "my2Vm"
+        },
+        "vm2Size": {
+            "type": "string",
+            "defaultValue": "Standard_B1s"
         },
         "adminUsername": {
             "type": "string",
@@ -67,14 +71,14 @@
         "computeApiVersion": "2018-06-01",
         "storageApiVersion": "2018-07-01",
         "nvaPipName": "[concat(parameters('nvaName'), '-pip')]",
-        "vmPipName": "[concat(parameters('vmName'), '-pip1')]",
-		"vmPip2Name": "[concat(parameters('vm2Name'), '-pip2')]",
+        "vm1PipName": "[concat(parameters('vm1Name'), '-pip1')]",
+		"vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
         "pipType": "Static",
         "pipSku": "Basic",
         "nvaNicName": "[concat(parameters('nvaName'), '-nic1')]",
 		"nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
-        "vmNicName": "[concat(parameters('vmName'), '-nic1')]",
-		"vmNic2Name": "[concat(parameters('vm2Name'), '-nic2')]",
+        "vm1NicName": "[concat(parameters('vm1Name'), '-nic1')]",
+		"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
         "nvaNsgName": "[concat(parameters('nvaName'), '-nsg')]",
         "vmNsgName": "[concat(parameters('vm2Name'), '-nsg1')]",
         "nvaNsgRules": [
@@ -128,7 +132,7 @@
         ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vmNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vmNsgName'))]",
-        "vmDiskName": "[concat(parameters('vmName'), '-disk')]",
+        "vm1DiskName": "[concat(parameters('vm1Name'), '-disk')]",
         "vm2DiskName": "[concat(parameters('vm2Name'), '-disk2')]",
 		"vmDiskType": "Standard_LRS",
 		"vmOsDiskSize": 32,
@@ -384,14 +388,14 @@
             "tags": {}
         },
         {
-            "comments": "Crate NIC for VM",
-            "name": "[variables('vmNicName')]",
+            "comments": "Crate NIC for VM 1",
+            "name": "[variables('vm1NicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[variables('vmNsgName')]",
-                "[variables('vmPipName')]",
+                "[variables('vm1PipName')]",
                 "[parameters('vnetName')]"
             ],
             "properties": {
@@ -404,7 +408,7 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vmPipName'))]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vm1PipName'))]"
                             }
                         }
                     }
@@ -417,13 +421,13 @@
         },
         {
             "comments": "Crate NIC for VM2",
-            "name": "[variables('vmNic2Name')]",
+            "name": "[variables('vm1NicName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[variables('vmNsgName')]",
-                "[variables('vmPip2Name')]",
+                "[variables('vm1PipName')]",
                 "[parameters('vnetName')]"
             ],
             "properties": {
@@ -436,7 +440,7 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vmPip2Name'))]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vm2PipName'))]"
                             }
                         }
                     }
@@ -460,7 +464,7 @@
         },
         {
             "comments": "PIP for the VM1",
-            "name": "[variables('vmPipName')]",
+            "name": "[variables('vm1PipName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
@@ -485,7 +489,7 @@
         },
         {
             "comments": "PIP for the VM2",
-            "name": "[variables('vmPipName')]",
+            "name": "[variables('vm2PipName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
@@ -500,12 +504,12 @@
         {
             "comments": "Deploy Linux VM1",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('vmName')]",
+            "name": "[parameters('vm1Name')]",
             "apiVersion": "[variables('computeApiVersion')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('vmSize')]"
+                    "vmSize": "[parameters('vm1Size')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -517,7 +521,7 @@
                     "osDisk": {
                         "osType": "Linux",
                         "caching": "ReadWrite",
-                        "name": "[variables('vmDiskName')]",
+                        "name": "[variables('vm1DiskName')]",
                         "diskSizeGb": "[variables('vmOsDiskSize')]",
                         "createOption": "FromImage",
                         "managedDisk": {
@@ -527,7 +531,7 @@
                     "dataDisks": []
                 },
                 "osProfile": {
-                    "computerName": "[parameters('vmName')]",
+                    "computerName": "[parameters('vm1Name')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": false
@@ -538,7 +542,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmNicName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vm1NicName'))]",
                             "properties": {
                                 "primary": true
                             }
@@ -548,17 +552,17 @@
             },
             "resources": [],
             "dependsOn": [
-                "[variables('vmNicName')]"
+                "[variables('vm1NicName')]"
             ]
         }, 
         {
-            "comments": "Shutdown schedule for VM",
-            "name": "[concat('shutdown-computevm-', parameters('vmName'))]",
+            "comments": "Shutdown schedule for VM 1",
+            "name": "[concat('shutdown-computevm-', parameters('vm1Name'))]",
             "type": "Microsoft.DevTestLab/schedules",
             "apiVersion": "2017-04-26-preview",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vm1Name'))]"
             ],
             "properties": {
                 "status": "[variables('autoShutdownStatus')]",
@@ -567,7 +571,7 @@
                     "time": "[variables('autoShutdownTime')]"
                 },
                 "timeZoneId": "[variables('autoShutdownTimeZone')]",
-                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vm1Name'))]",
                 "notificationSettings": {
                     "status": "[variables('autoShutdownNotificationStatus')]",
                     "notificationLocale": "[variables('autoShutdownNotificationLocale')]",
@@ -584,7 +588,7 @@
             "location": "[resourceGroup().location]",
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('vmSize')]"
+                    "vmSize": "[parameters('vm2Size')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -617,7 +621,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmNic2Name'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vm2NicName'))]",
                             "properties": {
                                 "primary": true
                             }
@@ -627,7 +631,7 @@
             },
             "resources": [],
             "dependsOn": [
-                "[variables('vmNic2Name')]"
+                "[variables('vm2NicName')]"
             ]
         }, 
         {
@@ -656,9 +660,9 @@
             "tags": {}
         }, 
 		{
-			"comments": "Create Linux custom extension to install software in the VM",
+			"comments": "Create Linux custom extension to install software in the VM 1",
 			"type": "Microsoft.Compute/virtualMachines/extensions",
-			"name": "[concat(parameters('vmName'), '/installcustomscript')]",
+			"name": "[concat(parameters('vm1Name'), '/installcustomscript')]",
 			"apiVersion": "[variables('computeApiVersion')]",
 			"location": "[resourceGroup().location]",
 			"properties": {
@@ -674,13 +678,13 @@
 				}
 			},
 			"dependsOn": [
-				"[parameters('vmName')]"
+				"[parameters('vm1Name')]"
 			]
         },
         {
 			"comments": "Create Linux custom extension to install software in the VM2",
 			"type": "Microsoft.Compute/virtualMachines/extensions",
-			"name": "[concat(parameters('vmName'), '/installcustomscript')]",
+			"name": "[concat(parameters('vm2Name'), '/installcustomscript')]",
 			"apiVersion": "[variables('computeApiVersion')]",
 			"location": "[resourceGroup().location]",
 			"properties": {
