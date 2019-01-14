@@ -141,7 +141,7 @@
         "diagnosticsStorageAccountId": "[variables('storageId')]",
         "diagnosticsStorageAccountType": "Standard_LRS",
         "diagnosticsStorageAccountKind": "Storage",
-		"customScript": "ubuntuConfig.sh",
+		"customScript": "ubuntuConfig.bash",
 		"thisTemplateUri": "[deployment().properties.templateLink.uri]",
         "customScriptUri": "[uri(variables('thisTemplateUri'), variables('customScript'))]",
         "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]"
