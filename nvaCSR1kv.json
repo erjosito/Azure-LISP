@@ -75,7 +75,7 @@
 		"vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
         "pipType": "Static",
         "pipSku": "Basic",
-        "nvaNicName": "[concat(parameters('nvaName'), '-nic1')]",
+        "nvaNic1Name": "[concat(parameters('nvaName'), '-nic1')]",
 		"nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
         "vm1NicName": "[concat(parameters('vm1Name'), '-nic1')]",
 		"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
@@ -208,8 +208,8 @@
             "tags": {}
         },
         {
-            "comments": "Create NIC1 for CSR",
-            "name": "[variables('nvaNicName')]",
+            "comments": "Create NIC1 for CSR (with PIP)",
+            "name": "[variables('nvaNic1Name')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
@@ -248,7 +248,7 @@
         },
         {
             "comments": "Create NIC2 for CSR",
-            "name": "[variables('nvaNicName')]",
+            "name": "[variables('nvaNic2Name')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "[variables('networkApiVersion')]",
             "location": "[resourceGroup().location]",
@@ -270,7 +270,7 @@
                         }
                     }
                 ],
-				 "enableAcceleratedNetworking": false,
+				"enableAcceleratedNetworking": false,
                 "enableIPForwarding": true,
                 "primary": true,
                 "tapConfigurations": [],
@@ -313,7 +313,7 @@
             "apiVersion": "[variables('computeApiVersion')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[variables('nvaNicName')]",
+                "[variables('nvaNic1Name')]",
                 "[variables('nvaNic2Name')]",
                 "[variables('storageName')]"
             ],
@@ -338,8 +338,10 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nvaNicName'))]",
-							"id2": "[resourceId('Microsoft.Network/networkInterfaces', variables('nvaNic2Name'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nvaNic1Name'))]",
+                        },
+                        {
+							"id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nvaNic2Name'))]"
                         }
                     ]
                 },
